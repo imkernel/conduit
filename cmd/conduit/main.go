@@ -1,7 +1,7 @@
 package main
 
-import "fmt"
+import "github.com/alwindoss/conduit/api"
 
 func main() {
-	fmt.Println("Hello World")
+	api.StartServer()
 }
