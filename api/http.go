@@ -1,10 +1,12 @@
 package api
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/labstack/echo"
+)
 
 // StartServer starts the API server
 func StartServer() {
-	r := gin.Default()
-	createRoutes(r)
-	r.Run() // listen and serve on 0.0.0.0:8080
+	e := echo.New()
+
+	e.Logger.Fatal(e.Start(":1323"))
 }

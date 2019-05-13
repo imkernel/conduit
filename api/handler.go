@@ -3,15 +3,21 @@ package api
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"github.com/labstack/echo"
 )
 
-func createApplicationHandler(c *gin.Context) {
-	data, err := c.GetRawData()
-	if err != nil {
-		c.JSON(http.StatusBadRequest, "Bad request")
-		return
-	}
+func createApplicationHandler(c echo.Context) error {
+	return c.String(http.StatusOK, "Hello, World!")
+}
 
-	c.JSON(http.StatusOK, string(data))
+func getApplicationHandler(c echo.Context) error {
+	return c.String(http.StatusOK, "Hello, World!")
+}
+
+func updateApplicationHandler(c echo.Context) error {
+	return c.String(http.StatusOK, "Hello, World!")
+}
+
+func deleteApplicationHandler(c echo.Context) error {
+	return c.String(http.StatusOK, "Hello, World!")
 }
