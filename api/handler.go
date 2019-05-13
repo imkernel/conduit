@@ -21,3 +21,19 @@ func updateApplicationHandler(c echo.Context) error {
 func deleteApplicationHandler(c echo.Context) error {
 	return c.String(http.StatusOK, "Hello, World!")
 }
+
+func createWorkflowHandler(c echo.Context) error {
+	return c.String(http.StatusOK, "Hello, World!")
+}
+
+func getWorkflowHandler(c echo.Context) error {
+	return c.String(http.StatusOK, "Hello, World!")
+}
+
+func updateWorkflowHandler(c echo.Context) error {
+	return c.String(http.StatusOK, "Hello, World!")
+}
+
+func deleteWorkflowHandler(c echo.Context) error {
+	return c.String(http.StatusOK, "Hello, World!")
+}
