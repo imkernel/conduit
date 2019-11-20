@@ -1,4 +1,4 @@
-package api
+package conduit
 
 // CreateApplicationRequest is the request payload for creation of an application in conduit
 type CreateApplicationRequest struct {

@@ -1,7 +1,9 @@
 package main
 
-import "github.com/alwindoss/conduit/api"
+import (
+	"github.com/alwindoss/conduit/internal/app/conduit"
+)
 
 func main() {
-	api.StartServer()
+	conduit.StartServer()
 }

@@ -1,26 +1,32 @@
-# Go parameters
-BINARY_FOLDER=./bin
-GOCMD=go
-GOBUILD=$(GOCMD) build
-GOCLEAN=$(GOCMD) clean
-GOTEST=$(GOCMD) test
-GOGET=$(GOCMD) get
-BINARY_NAME=conduit
-BINARY_UNIX=$(BINARY_NAME)_unix
+PREFIX=/usr/local
+BINDIR=${PREFIX}/bin
+DESTDIR=
+BLDDIR = build
+BLDFLAGS=
+EXT=
+ifeq (${GOOS},windows)
+    EXT=.exe
+endif
 
-all: test build
-build: 
-		$(GOBUILD) -o $(BINARY_FOLDER)/$(BINARY_NAME) ./cmd/...
-test: 
-		$(GOTEST) -v ./...
-clean: 
-		rm -rf $(BINARY_FOLDER)
-run: all
-		$(BINARY_FOLDER)/$(BINARY_NAME)
+# APPS = conduit nsqlookupd nsqadmin nsq_to_nsq nsq_to_file nsq_to_http nsq_tail nsq_stat to_nsq
+APPS = conduit
+all: $(APPS)
 
+$(BLDDIR)/conduit:        $(wildcard cmd/conduit/*.go internal/app/conduit/*.go)
+# $(BLDDIR)/nsqlookupd:  $(wildcard apps/nsqlookupd/*.go nsqlookupd/*.go nsq/*.go internal/*/*.go)
 
-# Cross compilation
-build-linux:
-		CGO_ENABLED=0 GOOS=linux GOARCH=amd64 $(GOBUILD) -o $(BINARY_UNIX) -v
-docker-build:
-		docker run --rm -it -v "$(GOPATH)":/go -w /go/src/bitbucket.org/rsohlich/makepost golang:latest go build -o "$(BINARY_UNIX)" -v
+$(BLDDIR)/%:
+	@mkdir -p $(dir $@)
+	go build ${BLDFLAGS} -o $@ ./cmd/$*
+
+$(APPS): %: $(BLDDIR)/%
+
+clean:
+	rm -fr $(BLDDIR)
+
+.PHONY: install clean all
+.PHONY: $(APPS)
+
+install: $(APPS)
+	install -m 755 -d ${DESTDIR}${BINDIR}
+	for APP in $^ ; do install -m 755 ${BLDDIR}/$$APP ${DESTDIR}${BINDIR}/$$APP${EXT} ; done
